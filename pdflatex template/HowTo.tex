@@ -1,0 +1,89 @@
+
+\chapter{How To in English}
+Here, you can describe how the problem was solved and the steps taken to obtain the results.
+
+\section{Latex-Environment}
+Almost every text editor can be used to write latex. However, an IDE is recommended e.g TeXStudio.
+
+
+\section{How To: Write a Thesis}
+In this section, some useful tricks for writing and for using latex are presented.
+For headings in general, you can use ``Titlecase'' for a consistent appearance.
+
+\section{Example for a Figure}
+	\begin{figure}[h!]
+		\begin{center}
+			\includegraphics[width=7cm]{img/logochair.pdf}
+			\caption{Example for a title of a figure.}
+			\label{fig:ToUseWithReference}
+		\end{center}
+	\end{figure}
+	
+	With the help of \texttt{\bslash label}, figures and tables can be addressed with the command \texttt{\bslash ref} 
+	It is important, to describe the figure in the text. For example: In Fig.~\ref{fig:ToUseWithReference}, one can see the logo of the chair. The text is shown in blue, and the in black the symbol of the chair.
+	
+	The tilde prevents a linebreak between Figure and the number.
+	
+	\section{Example for a table}
+	Clearly structured tables can be realized with the packet booktabs as you can see in Table~\ref{table:ranking}.
+	
+	\begin{table}
+		\begin{center}
+			\begin{tabular}{cl}
+				\toprule
+				\textbf{Ranking} & \textbf{Letter} \\
+				\midrule
+				1 	& A \\
+				2 	& B\\
+				3	& C\\
+				4	& D\\
+				5	& E\\
+				6	& F\\
+				7	& G\\
+				\bottomrule
+			\end{tabular}
+			\caption{Ranking of letters in the alphabet.}
+			\label{table:ranking}
+		\end{center}
+	\end{table}
+	
+	
+	\section{Example for References}
+	The literature reference in the text are used as follows:\\
+	``..., as shown in \cite{architecturemobilep2p}.'' The Style of the reference can be adapted in the file ``ThesisCNaCC.tex'' (e.g. show only numbers). For the most papers, you can directly download the Bibtex source (e.g. at Google Scholar, Springer etc.). For an easier management, you can use programs like Jabref, Mendeley etc.
+	
+	\section{Fonts}
+	As font, Arial or Roman is recommended. Please note that some units have their own font:
+	\begin{description}
+		\item[Italic:] physical units(e.g.~$V$ for Voltage),
+		Variables~(e.G.~$x$), and functions and operators (e.G.~$f(x)$)
+		\item[Mathematical formulas in math mode:] $\frac{1}{1} \cdot 3 = 4$
+	\end{description} 
+	
+	\section{Code of the Thesis}
+	\subsection{GitLab} At the chair, there is a GitLab you can use for managing your code with version control. In the end, your supervisor can easily access this code.
+	
+	If interested, please contact your supervisor!
+	
+	\subsection{Computing Power}
+	If you need hardware for your code/simulations, please contact your supervisor!
+	
+	
+	\subsection{Insert Code } Please do not copy your complete code in the thesis! But on some points it can be helpful to show snippets. You can use Listings:
+	
+	\begin{lstlisting}[language=java, caption=Hello World in Java, label=helloJava]
+	public static void main (String[]args) {
+	System.print.out("Hello World");
+	}
+	\end{lstlisting}
+	
+	You can import the code directly from a file, too (File does not exist here)
+	%\lstinputlisting[language=Python, caption=Direkt aus Datei, label=direktDatei]{source_filename.py}
+	
+	The appearance can be adapted: \url{https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings#Settings}
+	
+	\section{Abbreviations}
+	If you are using many abbreviations, you can use latex-packages like acronym or glossary. For exmaple a \ac{VM} is used. More \acp{VM} are better than one \ac{VM}.
+	This is a very long abbreviation in german: \ac{ssla}, with a different plural: \acp{ssla}.
+	
+

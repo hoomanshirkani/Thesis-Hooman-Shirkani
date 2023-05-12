@@ -1,0 +1,219 @@
+
+
+\chapter{A Chapter of the main part- Methodology }
+
+
+ \section{Problem definition }
+Natural disasters encompass a variety of destructive situations, including volcanoes, earthquakes, tornadoes, eruptions, and more. The recent earthquake in Turkey underscored the importance of maintaining online connectivity for individuals trapped under collapsed buildings. It is essential to enhance the robustness and resilience of wireless networks in the face of natural disasters \cite{Santos5GNetworks}. Moreover, the robustness of 5G networks plays a significant role in strengthening smart grids, from management considerations to monitoring dimensions \cite{Wong2017EnhancingRings}. Features of 5G networks, such as ultra-low latency and ultra-reliability, serve as game-changers in establishing more dependable smart grids. Presently, smart grids rely heavily on intelligent energy generation resources and extensive grid monitoring, which is crucial for ensuring grid safety and stability.
+
+In the aftermath of a disaster, the first few hours are critical for reaching people trapped in buildings or other inaccessible locations. Every minute counts during this time. Various scenarios may unfold after a disaster, with the potential for infrastructure and communication damage being inevitable. Thus, maintaining the operational status of the remaining infrastructure is crucial until the affected areas can be re-established.
+\\ 
+The approach that suggests the remaining part of the networks consist of the edge clouds and the base stations of the infrastructures can establish communication towards the serving of 5G virtual functions, which leads us to transfer slice processing and deploying mostly on the edge clouds till the defeated infrastructure will be redeployed.  To achieve this goal we encounter some obstacles like energy management due to power outage scenarios and process load balancing due to the difference congestion of based on user locations and weak or disrupted connections to the core network. 
+\\
+The primary objective of this thesis is to design and develop an intelligent slice placement framework that can dynamically adapt to various disaster scenarios by allocating each VNF of slices across edge systems while considering network constraints, energy efficiency, and load balancing. \\ This framework will incorporate Integer Linear Programming (ILP) models and a k-mean clustering algorithm to optimize VNF placement and minimize the impact of disaster-induced disruptions on 5G network performance.
+\\
+This research will contribute to the ongoing efforts to enhance the resilience and survivability of 5G cellular access networks, ensuring reliable and high-quality services for end-users even during challenging disaster situations.
+
+
+%To validate the proposed framework's effectiveness, different disaster scenarios will be evaluated, simulating power outages, core network disconnections, and network partitioning events. The results will be analyzed to demonstrate the improvements in network survivability, energy efficiency, and load balancing achieved by the proposed strategy during disaster scenarios.
+\begin{tabular}{l l}
+    $N$ & Set of edge clouds or nodes \\
+    $S$ & Set of slices \\
+    $A_i$ & Acceptance ratio of edge cloud or node $i \in N$ \\
+    $C_i$ & CPU capacity of edge cloud or node $i \in N$ \\
+    $B_i$ & Bandwidth capacity of edge cloud or node $i \in N$ \\
+    $R_s$ & Required CPU capacity for slice $s \in S$ \\
+    $W_s$ & Required bandwidth capacity for slice $s \in S$
+\end{tabular}
+\\
+Decision Variables:
+\\
+\begin{equation*}
+    x_{is} \in \{0, 1\}, \text{ where } x_{is} = 1 \text{ if slice } s \in S \text{ is placed on edge cloud or node } i \in N, \text{ and } 0 \text{ otherwise.}
+\end{equation*}
+
+Objective Function:
+
+We want to maximize the total acceptance ratio while considering the CPU and bandwidth capacities of each edge cloud or node:
+
+\begin{equation*}
+    \text{maximize} \sum_{i \in N} \sum_{s \in S} A_i \cdot x_{is}
+\end{equation*}
+
+Constraints:
+
+Each slice must be placed on exactly one edge cloud or node:
+
+\begin{equation*}
+    \forall s \in S: \sum_{i \in N} x_{is} = 1
+\end{equation*}
+
+The total required CPU capacity for all slices placed on an edge cloud or node cannot exceed its CPU capacity:
+
+\begin{equation*}
+    \forall i \in N: \sum_{s \in S} R_s \cdot x_{is} \leq C_i
+\end{equation*}
+
+The total required bandwidth capacity for all slices placed on an edge cloud or node cannot exceed its bandwidth capacity:
+
+\begin{equation*}
+    \forall i \in N: \sum_{s \in S} W_s \cdot x_{is} \leq B_i
+\end{equation*}
+
+The decision variables are binary:
+
+\begin{equation*}
+    \forall i \in N, \forall s \in S: x_{is} \in \{0, 1\}
+\end{equation*}
+
+\section*{The Placement Code for the scenario ...}
+
+\begin{lstlisting}
+from gurobipy import *
+
+# Parameters
+nodes = 6
+slices = 20
+
+# Node capacities
+node_cpu_capacity = [10, 15, 25, 20, 30, 40]
+node_bandwidth_capacity = [50, 40, 60, 80, 70, 100]
+
+# Node acceptance ratios
+node_acceptance_ratio = [1.0, 0.9, 0.8, 1.0, 0.7, 0.6]
+
+# Slice requirements
+slice_cpu_req = [2, 1, 3, 4, 2, 3, 1, 1, 2, 3, 1, 4, 2, 1, 3, 2, 2, 4, 1, 3]
+slice_bandwidth_req = [5, 4, 6, 10, 8, 9, 4, 3, 5, 7, 3, 10, 5, 4, 6, 5, 5, 10, 4, 6]
+
+# Create a new model
+model = Model("5G_slice_placement")
+
+# Decision variables
+x = {}
+for i in range(nodes):
+    for s in range(slices):
+        x[i, s] = model.addVar(vtype=GRB.BINARY, name=f"x_{i}_{s}")
+
+# Objective function
+model.setObjective(
+    quicksum(node_acceptance_ratio[i] * x[i, s] for i in range(nodes) for s in range(slices)),
+    GRB.MAXIMIZE,
+)
+
+# Constraints
+# 1. Each slice must be placed on exactly one edge cloud or node
+for s in range(slices):
+    model.addConstr(quicksum(x[i, s] for i in range(nodes)) == 1)
+
+# 2. CPU capacity constraint
+for i in range(nodes):
+    model.addConstr(quicksum(slice_cpu_req[s] * x[i, s] for s in range(slices)) <= node_cpu_capacity[i])
+
+# 3. Bandwidth capacity constraint
+for i in range(nodes):
+    model.addConstr(quicksum(slice_bandwidth_req[s] * x[i, s] for s in range(slices)) <= node_bandwidth_capacity[i])
+
+# Optimize model
+model.optimize()
+
+# Print the solution
+print("\nOptimal slice placement:")
+for i in range(nodes):
+    for s in range(slices):
+        if x[i, s].x > 0.5:
+            print(f"Slice {s} -> Node {i}")
+\end{lstlisting}
+% As main part is 
+% In the main part, the procedure how the problem was solved and 
+% the obtained results of the work are presented in detail.
+% For this purpose, the main part can be divided into different sections 
+% or even into several chapters.
+
+% Introduction and main part must be written in a conclusive and coherent way.
+% The reader of the work should be able to read and understand the thesis without additional literature.
+% Good scientific work (giving references, concrete language etc.) is a must!
+
+
+% Roughly, a structure can be:
+% \begin{itemize}
+% 	\item Problem description
+% 	\item \textbf{Assumptions:} This section is very important! Here, the limits and assumptions are described which are used for your approach
+% 	\item Simulationsetup/how to solve the problem
+% 	\item Results: Figures, Tables etc.
+% 	\item Evaluation: What do the results mean?
+% 	\item Discussion of results: Why those values? Was your setup valid? What could be improved?
+% \end{itemize}
+
+
+
+
+% \section{Golden 6 \texorpdfstring{$\times$}{x} C - Rule}
+
+% Since you are all getting more and more involved into writing,
+% please follow strictly the golden rule of 6 x C :
+
+% This should be explained to you by your supervisor and is about
+% how to choose your arguments carefully.
+
+% \begin{enumerate}
+% \item Clarity
+% \item Correctness
+% \item Conciseness
+% \item Consistency
+% \item Connectedness
+% \item Completeness
+% \end{enumerate}
+
+% The 6Cs apply to all academic texts alike: Papers, PhD theses, Diploma theses, reports etc.
+% So please practice yourself and teach the students you are supervising these golden rules
+% as well.
+
+
+% \section{General Document Structure}
+
+% The project thesis has to be structured according the following standard:
+
+% \begin{enumerate}
+% \item Abstract
+% \item Introduction\\
+% This should include an overview of the thesis / project description
+% (what is explained in which section/chapter)
+% \item (Verwandte Arbeiten)
+% \item Main body of work description, divided in several sections/chapters 
+% \item Related Work
+% \item Conclusions and Future Work
+% \item References
+% \end{enumerate}
+
+% All figures in project descriptions / theses must have a \textbf{title and a legend/description of axes!}
+% All figures and equations must be numbered, as well as sections (reports),
+% subsections and chapters (books). Please provide also a short description of the message of the figures/tables etc.
+
+% References to any object (figures, equations, sections etc.) must be done
+% explicitly, that is, with pointers, rather than  by means of loose connections
+% as in shown above. That should be avoided all together. 
+
+% \section{Submittal Form}
+
+% Please follow the current information provided online at 
+% \url{http://www.net.fim.uni-passau.de/hints}.
+
+% Please check with our supervisor beforehand to ensure you understand all the requirements. Before hand-in, verify that all copies have been signed and that the electronic version is up-to-date.
+
+% \subsection{Archive}
+% For the archive, all files of the work (also presentations) should be made available for the supervisor.
+% Furthermore, a \BibTeX-entry of the thesis should be created (fill in the fields in square brackets):
+% \begin{verbatim}
+% @MastersThesis{<Last name of the author><year>,
+% type =         {<Bachelor-/ or Master Thesis>},
+% title =        {{<Topic of the thesis>}},
+% school =       {Institute of Communication Networks~(LKN),
+% Munich University of Technology~(TUM)},
+% author =       {<last name of author>, <first name of author>},
+% annote =       {<last name of supervisor>, <first name of supervisor>},
+% month =        {<Month>},
+% year =         {<Year>},
+% key =          {<Several key words>}
+}
+\end{verbatim}

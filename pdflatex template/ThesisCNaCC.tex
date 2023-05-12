@@ -1,0 +1,228 @@
+\documentclass[fontsize=12pt,openright,twoside,paper=a4,BCOR=1cm]{scrbook}
+\DeclareOldFontCommand{\bf}{\normalfont\bfseries}{\mathbf}
+
+\newcommand{\authornamefirst}{Hooman}
+\newcommand{\authornamemiddle}{}
+\newcommand{\authornamelast}{Shirkani}
+\newcommand{\worktitle}{Towards enhancing the survivability of 5G cellular access networks
+during disaster scenarios}
+\newcommand{\thesistype}{Master Thesis}
+\newcommand{\thesisdate}{xx/xx/20xx}
+\newcommand{\thesisprof}{Prof. Dr.-Ing. Hermann de Meer}
+\newcommand{\thesissecondprof}{-}
+\newcommand{\supervisor}{Anna Volkova ,~M.~Sc.}
+\newcommand{\chair}{Chair of Computer Networks \& Communications}
+
+\usepackage{amsmath, amssymb}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    language=Python,
+    basicstyle=\small\ttfamily,
+    frame=single,
+    breaklines=true,
+    numbers=left,
+    numberstyle=\tiny,
+    xleftmargin=.25in,
+    backgroundcolor=\color{gray!10},
+    showstringspaces=false,
+}
+
+
+
+\newcommand{\contactprofone}{
+\thesisprof \\
+\chair \\
+Universit\"at Passau \\
+E-Mail:~{\small \url{demeer@fim.uni-passau.de}}  \\
+Web:~{\small
+\url{http://www.net.fim.uni-passau.de/}}\\}
+
+\newcommand{\contactproftwo}{
+\thesissecondprof \\
+Chair of XYZ \\
+Universit\"at Passau \\
+E-Mail:~{\small \url{xxx@fim.uni-passau.de}}  \\
+Web:~{\small
+\url{http://www.xxx.fim.uni-passau.de/}}\\}
+
+
+\newcommand{\contactsupervisor}{
+\supervisor \\
+\chair \\
+Universit\"at Passau \\
+E-Mail:~{\small \url{xxx@fim.uni-passau.de}}  \\
+Web:~{\small
+\url{http://www.xxx.fim.uni-passau.de/}}\\}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% PACKAGES:
+
+
+
+
+
+% Use English :
+
+% Use list of tabels, etc. in table of contents:
+\usepackage{tocbibind}
+% German paragraph skip
+\usepackage{parskip}
+\usepackage[utf8]{inputenc}
+% Index-generation
+\usepackage{makeidx}
+% Einbinden von URLs:
+\usepackage{url}
+% Include .eps-files (needed also for the CNACC-logo):
+%\usepackage{epsf}
+% Special \LaTex symbols (e.g. \BibTeX):
+\usepackage{doc}
+% Include Graphic-files:
+%\usepackage{graphics}
+% Include Graphic-files:
+\usepackage{graphicx}
+\usepackage{acronym}
+% Include doc++ generated tex-files:
+%\usepackage{docxx}
+% Include PDF links
+
+%mathstuff
+\usepackage[cmex10]{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{booktabs}
+
+%hyperref for nice PDF output
+\usepackage[pdftex, bookmarks=true]{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% OTHER SETTINGS:
+
+% Pagestyle:
+\pagestyle{headings}
+
+% Avoid 'overhang':
+\sloppy
+
+% Choose language
+\newcommand{\setlang}[1]{\selectlanguage{#1}\nonfrenchspacing}
+
+\usepackage[USenglish, german]{babel}
+
+
+%%%%% 	CHANGE THE LANGUAGE HERE! %%%%%%%%
+%\setlang{USenglish}
+\setlang{german}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% TITLE:
+
+\begin{document}
+
+\thispagestyle{empty}
+\newpage
+
+\vspace{1cm}
+
+\begin{center}
+\begin{tabular}{lr}
+\includegraphics[width=6.5cm]{img/logouni.pdf}
+&
+\includegraphics[width=6.5cm]{img/logochair.pdf}
+\end{tabular}
+
+\vspace{3cm}
+\Large University of Passau
+\\
+\Large Faculty of Computer Science and Mathematics
+\\
+\vspace{0.3cm}
+\Large {\bf \chair }
+\\
+\Large \thesisprof
+
+\end{center}
+
+
+\vspace{4.5cm}
+
+\begin{center}
+        {\bf\Huge \thesistype} % Master Thesis, Programming Project
+\end{center}
+
+\begin{center}
+        \settowidth{\baselineskip}{0.4cm}
+        {\LARGE \worktitle}
+        \\
+        {\Large
+        \authornamefirst~\authornamemiddle~\authornamelast
+        }
+\end{center}
+
+\vfill {% \settowidth{\baselineskip}{0.2cm}
+
+\vfill
+
+
+{\large
+\begin{tabular}[l]{llll}
+
+Date:       & \thesisdate %%(\LaTeX{}$2_\epsilon$ run \today)
+\smallskip \\
+Supervisors:   & \thesisprof \\
+&\thesissecondprof \\
+	& \supervisor \\
+\end{tabular}}
+} \cleardoublepage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+% MAIN PART:
+
+% Erklärung
+\include{Legals}
+\include{Abstract}
+\tableofcontents
+
+
+\include{Introduction}
+\include{Background}
+% Main part can have multiple chaper-files, e.g.:
+\include{Body}
+\include{HowTo}
+\include{Results}
+\include{RelatedWork}
+\include{Conclusions}
+
+
+\appendix
+\input{Abbrev}
+\include{Appendix}
+\listoffigures
+\listoftables
+
+% References (Literaturverzeichnis):
+% a) Style (with numbers: use unsrt):
+\bibliographystyle{alpha}
+% b) The File:
+\bibliography{Bibliography}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+zz
